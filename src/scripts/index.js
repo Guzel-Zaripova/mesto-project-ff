@@ -9,6 +9,7 @@ function createCard({ name, link }, onDelete) {
 
   const cardImage = node.querySelector(".card__image");
   cardImage.setAttribute("src", link);
+  cardImage.setAttribute("alt", name);
 
   const deleteButton = node.querySelector(".card__delete-button");
   deleteButton.addEventListener("click", onDelete);
