@@ -1,6 +1,7 @@
 const path = require("path"); // подключаем path к конфигу вебпак
 const HtmlWebpackPlugin = require("html-webpack-plugin"); // подключите плагин
 const { CleanWebpackPlugin } = require("clean-webpack-plugin"); // подключили плагин, который будет каждый раз при сборке проекта удалять содержимое папки dist
+const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // подключите к проекту mini-css-extract-plugin
 
 module.exports = {
   // указали первое место, куда заглянет webpack, — файл index.js в папке src
@@ -46,6 +47,18 @@ module.exports = {
         //   },
         // ],
       },
+      {
+        // применять это правило только к CSS-файлам
+        test: /\.css$/,
+        // при обработке этих файлов нужно использовать
+        // MiniCssExtractPlugin.loader и css-loader
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+          },
+        ],
+      },
     ],
   },
 
@@ -54,5 +67,6 @@ module.exports = {
       template: "./src/index.html", // путь к файлу index.html
     }),
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin(), // подключение плагина для объединения файлов CSS
   ],
 };

@@ -1,6 +1,9 @@
 // useBuiltIns: "entry" означает, что вы будете импортировать полифилы в вашем коде.
 // import "core-js/stable";
 
+// добавьте импорт главного файла стилей
+import "./styles/index.css";
+
 console.log("Hello, World!");
 
 const numbers = [2, 3, 5];
