@@ -25,9 +25,9 @@ const popupProfileEdit = document.querySelector(".popup_type_edit");
 const buttonProfileEdit = document.querySelector(".profile__edit-button");
 const formProfileEdit = document.forms["edit-profile"];
 const nameProfileEdit = formProfileEdit.elements.name;
-const descripProfileEdit = formProfileEdit.elements.description;
+const descriptionProfileEdit = formProfileEdit.elements.description;
 const profileTitle = document.querySelector(".profile__title");
-const profileDescrip = document.querySelector(".profile__description");
+const profileDescription = document.querySelector(".profile__description");
 
 const popupNewCard = document.querySelector(".popup_type_new-card");
 const popupShowImage = document.querySelector(".popup_type_image");
@@ -37,7 +37,10 @@ const buttonPopupClose = document.querySelector(".popup__close");
 // closeModal(popupProfileEdit);
 
 // Открытие модального окна "Редактировать профиль" по нажатию кнопки "Редактировать"
+// Заполнение полей значениями, указанными на странице
 buttonProfileEdit.addEventListener("click", function (event) {
+  nameProfileEdit.value = profileTitle.textContent;
+  descriptionProfileEdit.value = profileDescription.textContent;
   openModal(popupProfileEdit);
 });
 
@@ -48,6 +51,10 @@ buttonPopupClose.addEventListener("click", function (event) {
 
 // Обработчик «отправки» формы
 function handleFormSubmit(event) {
-  evt.preventDefault();
-  nameProfileEdit.value;
+  event.preventDefault();
+  profileTitle.textContent = nameProfileEdit.value;
+  profileDescription.textContent = descriptionProfileEdit.value;
+  closeModal(popupProfileEdit);
 }
+
+formProfileEdit.addEventListener("submit", handleFormSubmit);
