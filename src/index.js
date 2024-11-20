@@ -21,6 +21,7 @@ function appendCards() {
 
 appendCards();
 
+// Переменные модального окна "Редактировать профиль"
 const openProfileEdit = document.querySelector(".profile__edit-button");
 const popupProfileEdit = document.querySelector(".popup_type_edit");
 const formProfileEdit = document.forms["edit-profile"];
@@ -29,8 +30,12 @@ const descriptionProfileEdit = formProfileEdit.elements.description;
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 
+// Переменнные модального окна "Добавление карточки"
 const openNewCard = document.querySelector(".profile__add-button");
 const popupNewCard = document.querySelector(".popup_type_new-card");
+const formNewCard = document.forms["new-place"];
+const nameNewCard = formNewCard.elements["place-name"];
+const linkNewCard = formNewCard.elements.link;
 
 const popupShowImage = document.querySelector(".popup_type_image");
 
@@ -43,15 +48,26 @@ openProfileEdit.addEventListener("click", function () {
 });
 
 // Обработчик «отправки» формы "Редактировать профиль"
-function handleFormSubmit(event) {
+function handleProfileSubmit(event) {
   event.preventDefault();
   profileTitle.textContent = nameProfileEdit.value;
   profileDescription.textContent = descriptionProfileEdit.value;
   closeModal(popupProfileEdit);
 }
-formProfileEdit.addEventListener("submit", handleFormSubmit);
+formProfileEdit.addEventListener("submit", handleProfileSubmit);
 
 // Открытие модального окна "Добавление карточки" по нажатию кнопки "Добавить"
 openNewCard.addEventListener("click", function () {
   openModal(popupNewCard);
 });
+
+// Обработчик «отправки» формы "Добавление карточки"
+function handleCardSubmit(event) {
+  event.preventDefault();
+  const name = nameNewCard.value;
+  const link = linkNewCard.value;
+  const card = createCard({ name, link }, handleDeleteCard);
+  placesContainer.prepend(card);
+  closeModal(popupNewCard);
+}
+popupNewCard.addEventListener("submit", handleCardSubmit);

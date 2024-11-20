@@ -29,7 +29,6 @@ const initialCards = [
 ];
 
 const cardTemplate = document.querySelector("#card-template");
-
 // Функция создания карточки
 function createCard({ name, link }, onDelete) {
   const node = cardTemplate.content.cloneNode(true);
