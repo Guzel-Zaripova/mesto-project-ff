@@ -44,10 +44,10 @@ buttonProfileEdit.addEventListener("click", function (event) {
   openModal(popupProfileEdit);
 });
 
-// Открытие модального окна "Редактировать профиль" по клике по крестику в правом верхнем углу
-buttonPopupClose.addEventListener("click", function (event) {
-  closeModal(popupProfileEdit);
-});
+// Закрытие модального окна "Редактировать профиль" по клике по крестику в правом верхнем углу
+// buttonPopupClose.addEventListener("click", function (event) {
+//   closeModal(popupProfileEdit);
+// });
 
 // Обработчик «отправки» формы
 function handleFormSubmit(event) {

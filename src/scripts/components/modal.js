@@ -3,6 +3,21 @@
 
 function openModal(element) {
   element.classList.add("popup_is-opened");
+
+  const closeButton = element.querySelector(".popup__close");
+  function handleClick() {
+    closeModal(element);
+    closeButton.removeEventListener("click", handleClick);
+  }
+  closeButton.addEventListener("click", handleClick);
+
+  function handleKeydown(event) {
+    if (event.key === "Escape") {
+      closeModal(element);
+    }
+    document.removeEventListener("keydown", handleKeydown);
+  }
+  document.addEventListener("keydown", handleKeydown);
 }
 
 function closeModal(element) {
