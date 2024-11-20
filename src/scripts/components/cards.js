@@ -29,8 +29,7 @@ const initialCards = [
 ];
 
 const cardTemplate = document.querySelector("#card-template");
-// Функция создания карточки
-function createCard({ name, link }, onDelete) {
+function createCard({ name, link }, likeCard, onDelete) {
   const node = cardTemplate.content.cloneNode(true);
 
   const cardTitle = node.querySelector(".card__title");
@@ -40,16 +39,24 @@ function createCard({ name, link }, onDelete) {
   cardImage.setAttribute("src", link);
   cardImage.setAttribute("alt", name);
 
+  const placesList = document.querySelector(".places__list");
+  placesList.addEventListener("click", likeCard);
+
   const deleteButton = node.querySelector(".card__delete-button");
   deleteButton.addEventListener("click", onDelete);
 
   return node;
 }
 
-// Функция удаления карточки
+function handleLikeCard(event) {
+  if (event.target.classList.contains("card__like-button")) {
+    event.target.classList.toggle("card__like-button_is-active");
+  }
+}
+
 function handleDeleteCard(event) {
   const placesItem = event.target.closest(".places__item");
   placesItem.remove();
 }
 
-export { initialCards, createCard, handleDeleteCard };
+export { initialCards, createCard, handleLikeCard, handleDeleteCard };

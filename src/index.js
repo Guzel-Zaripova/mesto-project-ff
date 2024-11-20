@@ -6,6 +6,7 @@ import "./styles/index.css";
 import {
   initialCards,
   createCard,
+  handleLikeCard,
   handleDeleteCard,
 } from "./scripts/components/cards.js";
 import { openModal, closeModal } from "./scripts/components/modal.js";
@@ -14,7 +15,7 @@ const placesContainer = document.querySelector(".places__list");
 
 function appendCards() {
   for (const item of initialCards) {
-    const card = createCard(item, handleDeleteCard);
+    const card = createCard(item, handleLikeCard, handleDeleteCard);
     placesContainer.append(card);
   }
 }
@@ -66,7 +67,7 @@ function handleCardSubmit(event) {
   event.preventDefault();
   const name = nameNewCard.value;
   const link = linkNewCard.value;
-  const card = createCard({ name, link }, handleDeleteCard);
+  const card = createCard({ name, link }, handleLikeCard, handleDeleteCard);
   placesContainer.prepend(card);
   closeModal(popupNewCard);
 }
