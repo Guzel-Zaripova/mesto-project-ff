@@ -11,6 +11,15 @@ function openModal(element) {
   }
   closeButton.addEventListener("click", handleClick);
 
+  const overlay = document.querySelector(".popup");
+  function hanleOverlay(event) {
+    if (event.target === overlay) {
+      closeModal(element);
+      overlay.removeEventListener("click", hanleOverlay);
+    }
+  }
+  overlay.addEventListener("click", hanleOverlay);
+
   function handleKeydown(event) {
     if (event.key === "Escape") {
       closeModal(element);

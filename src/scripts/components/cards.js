@@ -30,6 +30,7 @@ const initialCards = [
 
 const cardTemplate = document.querySelector("#card-template");
 
+// Функция создания карточки
 function createCard({ name, link }, onDelete) {
   const node = cardTemplate.content.cloneNode(true);
 
@@ -46,6 +47,7 @@ function createCard({ name, link }, onDelete) {
   return node;
 }
 
+// Функция удаления карточки
 function handleDeleteCard(event) {
   const placesItem = event.target.closest(".places__item");
   placesItem.remove();

@@ -21,40 +21,37 @@ function appendCards() {
 
 appendCards();
 
+const openProfileEdit = document.querySelector(".profile__edit-button");
 const popupProfileEdit = document.querySelector(".popup_type_edit");
-const buttonProfileEdit = document.querySelector(".profile__edit-button");
 const formProfileEdit = document.forms["edit-profile"];
 const nameProfileEdit = formProfileEdit.elements.name;
 const descriptionProfileEdit = formProfileEdit.elements.description;
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 
+const openNewCard = document.querySelector(".profile__add-button");
 const popupNewCard = document.querySelector(".popup_type_new-card");
-const popupShowImage = document.querySelector(".popup_type_image");
-const buttonPopupClose = document.querySelector(".popup__close");
 
-// openModal(popupProfileEdit);
-// closeModal(popupProfileEdit);
+const popupShowImage = document.querySelector(".popup_type_image");
 
 // Открытие модального окна "Редактировать профиль" по нажатию кнопки "Редактировать"
 // Заполнение полей значениями, указанными на странице
-buttonProfileEdit.addEventListener("click", function (event) {
+openProfileEdit.addEventListener("click", function () {
   nameProfileEdit.value = profileTitle.textContent;
   descriptionProfileEdit.value = profileDescription.textContent;
   openModal(popupProfileEdit);
 });
 
-// Закрытие модального окна "Редактировать профиль" по клике по крестику в правом верхнем углу
-// buttonPopupClose.addEventListener("click", function (event) {
-//   closeModal(popupProfileEdit);
-// });
-
-// Обработчик «отправки» формы
+// Обработчик «отправки» формы "Редактировать профиль"
 function handleFormSubmit(event) {
   event.preventDefault();
   profileTitle.textContent = nameProfileEdit.value;
   profileDescription.textContent = descriptionProfileEdit.value;
   closeModal(popupProfileEdit);
 }
-
 formProfileEdit.addEventListener("submit", handleFormSubmit);
+
+// Открытие модального окна "Добавление карточки" по нажатию кнопки "Добавить"
+openNewCard.addEventListener("click", function () {
+  openModal(popupNewCard);
+});
