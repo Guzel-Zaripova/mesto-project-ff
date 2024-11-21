@@ -15,7 +15,12 @@ const placesContainer = document.querySelector(".places__list");
 
 function appendCards() {
   for (const item of initialCards) {
-    const card = createCard(item, handleLikeCard, handleDeleteCard);
+    const card = createCard(
+      item,
+      handleLikeCard,
+      handleDeleteCard,
+      handleViewCard
+    );
     placesContainer.append(card);
   }
 }
@@ -38,7 +43,14 @@ const formNewCard = document.forms["new-place"];
 const nameNewCard = formNewCard.elements["place-name"];
 const linkNewCard = formNewCard.elements.link;
 
-const popupShowImage = document.querySelector(".popup_type_image");
+// Переменные модального окна "Просмотр изображения"
+const popupViewImage = document.querySelector(".popup_type_image");
+const popupCardImage = document.querySelector(
+  ".popup_type_image .popup__image"
+);
+const popupCardCaption = document.querySelector(
+  ".popup_type_image .popup__caption"
+);
 
 // Открытие модального окна "Редактировать профиль" по нажатию кнопки "Редактировать"
 // Заполнение полей значениями, указанными на странице
@@ -63,12 +75,27 @@ openNewCard.addEventListener("click", function () {
 });
 
 // Обработчик «отправки» формы "Добавление карточки"
+// Удаление карточки изображения
 function handleCardSubmit(event) {
   event.preventDefault();
   const name = nameNewCard.value;
   const link = linkNewCard.value;
-  const card = createCard({ name, link }, handleLikeCard, handleDeleteCard);
+  const card = createCard(
+    { name, link },
+    handleLikeCard,
+    handleDeleteCard,
+    handleViewCard
+  );
   placesContainer.prepend(card);
   closeModal(popupNewCard);
+  formNewCard.reset();
 }
 popupNewCard.addEventListener("submit", handleCardSubmit);
+
+// Обработчик открытие модального окна "Просмотр изображения" по нажатию на карточку изображения
+function handleViewCard(event) {
+  popupCardImage.src = event.target.src;
+  popupCardImage.alt = event.target.alt;
+  popupCardCaption.textContent = event.target.alt;
+  openModal(popupViewImage);
+}

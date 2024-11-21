@@ -2,7 +2,11 @@
 // Функции openModal и closeModal, принимающие в качестве аргумента DOM-элемент модального окна, с которым нужно произвести действие
 
 function openModal(element) {
-  element.classList.add("popup_is-opened");
+  element.classList.add("popup_is-animated");
+  const waitingForAnimation = 60;
+  setTimeout(function () {
+    element.classList.add("popup_is-opened");
+  }, waitingForAnimation);
 
   const closeButton = element.querySelector(".popup__close");
   function handleClick() {
@@ -11,14 +15,13 @@ function openModal(element) {
   }
   closeButton.addEventListener("click", handleClick);
 
-  const overlay = document.querySelector(".popup");
   function hanleOverlay(event) {
-    if (event.target === overlay) {
+    if (event.target === element) {
       closeModal(element);
-      overlay.removeEventListener("click", hanleOverlay);
+      element.removeEventListener("click", hanleOverlay);
     }
   }
-  overlay.addEventListener("click", hanleOverlay);
+  element.addEventListener("click", hanleOverlay);
 
   function handleKeydown(event) {
     if (event.key === "Escape") {
@@ -32,7 +35,5 @@ function openModal(element) {
 function closeModal(element) {
   element.classList.remove("popup_is-opened");
 }
-
-// TODO: добавить анимацию для popup
 
 export { openModal, closeModal };

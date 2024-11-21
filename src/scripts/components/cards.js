@@ -29,7 +29,7 @@ const initialCards = [
 ];
 
 const cardTemplate = document.querySelector("#card-template");
-function createCard({ name, link }, likeCard, onDelete) {
+function createCard({ name, link }, onLike, onDelete, onView) {
   const node = cardTemplate.content.cloneNode(true);
 
   const cardTitle = node.querySelector(".card__title");
@@ -38,9 +38,10 @@ function createCard({ name, link }, likeCard, onDelete) {
   const cardImage = node.querySelector(".card__image");
   cardImage.setAttribute("src", link);
   cardImage.setAttribute("alt", name);
+  cardImage.addEventListener("click", onView);
 
-  const placesList = document.querySelector(".places__list");
-  placesList.addEventListener("click", likeCard);
+  const likeButton = node.querySelector(".card__like-button");
+  likeButton.addEventListener("click", onLike);
 
   const deleteButton = node.querySelector(".card__delete-button");
   deleteButton.addEventListener("click", onDelete);
@@ -49,9 +50,7 @@ function createCard({ name, link }, likeCard, onDelete) {
 }
 
 function handleLikeCard(event) {
-  if (event.target.classList.contains("card__like-button")) {
-    event.target.classList.toggle("card__like-button_is-active");
-  }
+  event.target.classList.toggle("card__like-button_is-active");
 }
 
 function handleDeleteCard(event) {
