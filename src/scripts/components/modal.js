@@ -8,13 +8,6 @@ function openModal(element) {
     element.classList.add("popup_is-opened");
   }, waitingForAnimation);
 
-  const closeButton = element.querySelector(".popup__close");
-  function handleClick() {
-    closeModal(element);
-    closeButton.removeEventListener("click", handleClick);
-  }
-  closeButton.addEventListener("click", handleClick);
-
   function hanleOverlay(event) {
     if (event.target === element) {
       closeModal(element);

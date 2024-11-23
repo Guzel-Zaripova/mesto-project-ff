@@ -99,3 +99,13 @@ function handleViewCard(event) {
   popupCardCaption.textContent = event.target.alt;
   openModal(popupViewImage);
 }
+
+// Кнопка закрытия
+function handlePopupCloseClick(event) {
+  const popup = event.target.closest(".popup");
+  closeModal(popup);
+}
+const closeButtons = document.querySelectorAll(".popup__close");
+closeButtons.forEach(function (item) {
+  item.addEventListener("click", handlePopupCloseClick);
+});
