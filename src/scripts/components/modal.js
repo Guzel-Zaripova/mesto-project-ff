@@ -9,19 +9,13 @@ function openModal(element) {
   }, waitingForAnimation);
 
   element.addEventListener("click", hanleOverlay);
-
-  function handleKeydown(event) {
-    if (event.key === "Escape") {
-      closeModal(element);
-    }
-    document.removeEventListener("keydown", handleKeydown);
-  }
   document.addEventListener("keydown", handleKeydown);
 }
 
 function closeModal(element) {
   element.classList.remove("popup_is-opened");
   element.removeEventListener("click", hanleOverlay);
+  document.removeEventListener("keydown", handleKeydown);
 }
 
 function hanleOverlay(event) {
@@ -30,6 +24,13 @@ function hanleOverlay(event) {
     event.target.classList.contains("popup__close")
   ) {
     closeModal(event.currentTarget);
+  }
+}
+
+function handleKeydown(event) {
+  if (event.key === "Escape") {
+    const openedModal = document.querySelector(".popup_is-opened");
+    closeModal(openedModal);
   }
 }
 
