@@ -3,12 +3,12 @@
 
 // добавление импорта главного файла стилей и скриптов js в dist/main.js
 import "./styles/index.css";
+import { initialCards } from "./scripts/components/cards.js";
 import {
-  initialCards,
   createCard,
   handleLikeCard,
   handleDeleteCard,
-} from "./scripts/components/cards.js";
+} from "./scripts/components/card.js";
 import { openModal, closeModal } from "./scripts/components/modal.js";
 
 const placesContainer = document.querySelector(".places__list");
