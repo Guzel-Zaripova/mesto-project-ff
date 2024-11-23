@@ -2,12 +2,7 @@
 // Функции openModal и closeModal, принимающие в качестве аргумента DOM-элемент модального окна, с которым нужно произвести действие
 
 function openModal(element) {
-  element.classList.add("popup_is-animated");
-  const waitingForAnimation = 60;
-  setTimeout(function () {
-    element.classList.add("popup_is-opened");
-  }, waitingForAnimation);
-
+  element.classList.add("popup_is-opened");
   element.addEventListener("click", hanleOverlay);
   document.addEventListener("keydown", handleKeydown);
 }
