@@ -10,6 +10,11 @@ import {
   handleDeleteCard,
 } from "./scripts/components/card.js";
 import { openModal, closeModal } from "./scripts/components/modal.js";
+import {
+  enableValidation,
+  clearValidation,
+  validationConfig,
+} from "./scripts/components/validation.js";
 
 const placesContainer = document.querySelector(".places__list");
 
@@ -55,6 +60,10 @@ const popupCardCaption = document.querySelector(
 // Открытие модального окна "Редактировать профиль" по нажатию кнопки "Редактировать"
 // Заполнение полей значениями, указанными на странице
 openProfileEdit.addEventListener("click", function () {
+  const profileForm = popupProfileEdit.querySelector(
+    validationConfig.formSelector
+  );
+  clearValidation(profileForm, validationConfig);
   nameProfileEdit.value = profileTitle.textContent;
   descriptionProfileEdit.value = profileDescription.textContent;
   openModal(popupProfileEdit);
@@ -71,7 +80,11 @@ formProfileEdit.addEventListener("submit", handleProfileSubmit);
 
 // Открытие модального окна "Добавление карточки" по нажатию кнопки "Добавить"
 openNewCard.addEventListener("click", function () {
+  const profileForm = popupNewCard.querySelector(validationConfig.formSelector);
+  clearValidation(profileForm, validationConfig);
   openModal(popupNewCard);
+  nameNewCard.value = "";
+  linkNewCard.value = "";
 });
 
 // Обработчик «отправки» формы "Добавление карточки"
@@ -109,3 +122,5 @@ const closeButtons = document.querySelectorAll(".popup__close");
 closeButtons.forEach(function (item) {
   item.addEventListener("click", handlePopupCloseClick);
 });
+
+enableValidation(validationConfig);
