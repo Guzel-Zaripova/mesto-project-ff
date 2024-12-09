@@ -15,6 +15,7 @@ import {
   clearValidation,
   validationConfig,
 } from "./scripts/components/validation.js";
+import { getUser } from "./scripts/api.js";
 
 const placesContainer = document.querySelector(".places__list");
 
@@ -124,3 +125,5 @@ closeButtons.forEach(function (item) {
 });
 
 enableValidation(validationConfig);
+
+getUser("wff-cohort-28");

@@ -1,6 +1,4 @@
-// В файле validation.js описаны функции для валидации форм.
-// Из файла экспортируется только функция активации валидации enableValidation
-// и функция очистки ошибок валидации clearValidation
+// В файле validation.js описаны функции для валидации форм
 
 const validationConfig = {
   formSelector: ".popup__form",
@@ -77,6 +75,7 @@ function hasInvalidInput(inputList) {
   });
 }
 
+// Функция активации валидации
 function enableValidation(config) {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
   formList.forEach((formElement) => {
@@ -84,6 +83,7 @@ function enableValidation(config) {
   });
 }
 
+// Функция очистки ошибок валидации
 function clearValidation(formElement, config) {
   const inputList = Array.from(
     formElement.querySelectorAll(config.inputSelector)
