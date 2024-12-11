@@ -56,10 +56,14 @@ openProfileEdit.addEventListener("click", function () {
 });
 
 // Обработчик «отправки» формы "Редактировать профиль"
-function handleProfileSubmit(event) {
+async function handleProfileSubmit(event) {
   event.preventDefault();
-  profileTitle.textContent = nameProfileEdit.value;
-  profileDescription.textContent = descriptionProfileEdit.value;
+  const name = nameProfileEdit.value;
+  const about = descriptionProfileEdit.value;
+  await api.updateUser(name, about);
+
+  profileTitle.textContent = name;
+  profileDescription.textContent = about;
   closeModal(popupProfileEdit);
 }
 formProfileEdit.addEventListener("submit", handleProfileSubmit);

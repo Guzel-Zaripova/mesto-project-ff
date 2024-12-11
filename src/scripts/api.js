@@ -10,24 +10,57 @@ const config = {
 
 // Загрузка информации о пользователе с сервера
 async function getCurrentUser() {
-  const url = `${config.baseUrl}/users/me`;
-  const response = await fetch(url, {
-    headers: config.headers,
-  });
-  const data = await response.json();
-  return data;
+  try {
+    const url = `${config.baseUrl}/users/me`;
+    const response = await fetch(url, {
+      headers: config.headers,
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Ошибка при получении данных:", error);
+  }
 }
 
 // Загрузка информации о карточках с сервера
 async function getCards() {
-  const url = `${config.baseUrl}/cards`;
-  const response = await fetch(url, {
-    headers: config.headers,
-  });
-  const data = await response.json();
-  console.log(data);
-  return data;
+  try {
+    const url = `${config.baseUrl}/cards`;
+    const response = await fetch(url, {
+      headers: config.headers,
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Ошибка при получении данных:", error);
+  }
 }
 
-const api = { getCurrentUser, getCards };
+// Редактирование профиля
+async function updateUser(name, about) {
+  try {
+    const url = `${config.baseUrl}/users/me`;
+    const response = await fetch(url, {
+      method: "PATCH",
+      headers: config.headers,
+      body: JSON.stringify({
+        name,
+        about,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Ошибка при получении данных:", error);
+  }
+}
+
+const api = { getCurrentUser, getCards, updateUser };
 export { api };
