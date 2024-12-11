@@ -2,7 +2,7 @@
 // Функции, обрабатывающие события лайка и удаления карточки
 
 const cardTemplate = document.querySelector("#card-template");
-function createCard({ name, link }, onLike, onDelete, onView) {
+function createCard({ name, link, likes }, onLike, onDelete, onView) {
   const node = cardTemplate.content.cloneNode(true);
 
   const cardTitle = node.querySelector(".card__title");
@@ -15,6 +15,9 @@ function createCard({ name, link }, onLike, onDelete, onView) {
 
   const likeButton = node.querySelector(".card__like-button");
   likeButton.addEventListener("click", onLike);
+
+  const likesCount = node.querySelector(".card__likes-count");
+  likesCount.textContent = likes.length || "";
 
   const deleteButton = node.querySelector(".card__delete-button");
   deleteButton.addEventListener("click", onDelete);
