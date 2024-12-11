@@ -3,7 +3,6 @@
 
 // добавление импорта главного файла стилей и скриптов js в dist/main.js
 import "./styles/index.css";
-import { initialCards } from "./scripts/components/cards.js";
 import {
   createCard,
   handleLikeCard,
@@ -15,23 +14,9 @@ import {
   clearValidation,
   validationConfig,
 } from "./scripts/components/validation.js";
-import { getCurrentUser } from "./scripts/api.js";
+import { api } from "./scripts/api.js";
 
 const placesContainer = document.querySelector(".places__list");
-
-function appendCards() {
-  for (const item of initialCards) {
-    const card = createCard(
-      item,
-      handleLikeCard,
-      handleDeleteCard,
-      handleViewCard
-    );
-    placesContainer.append(card);
-  }
-}
-
-appendCards();
 
 // Переменные модального окна "Редактировать профиль"
 const openProfileEdit = document.querySelector(".profile__edit-button");
@@ -57,19 +42,6 @@ const popupCardImage = document.querySelector(
 const popupCardCaption = document.querySelector(
   ".popup_type_image .popup__caption"
 );
-
-// Заполнение информации о пользователе данными, полученными с сервера
-async function initCurrentUser() {
-  const data = await getCurrentUser();
-  const profileImage = document.querySelector(".profile__image");
-  profileImage.style.backgroundImage = `url("${data.avatar}")`;
-  const profileTitle = document.querySelector(".profile__title");
-  profileTitle.textContent = data.name;
-  const profileDescription = document.querySelector(".profile__description");
-  profileDescription.textContent = data.about;
-}
-
-initCurrentUser();
 
 // Открытие модального окна "Редактировать профиль" по нажатию кнопки "Редактировать"
 // Заполнение полей значениями, указанными на странице
@@ -138,3 +110,36 @@ closeButtons.forEach(function (item) {
 });
 
 enableValidation(validationConfig);
+
+async function initPage() {
+  const [user, cards] = await Promise.all([
+    api.getCurrentUser(),
+    api.getCards(),
+  ]);
+  initCurrentUser(user);
+  appendCards(cards);
+}
+
+// Заполнение информации о пользователе данными, полученными с сервера
+function initCurrentUser(user) {
+  const profileImage = document.querySelector(".profile__image");
+  profileImage.style.backgroundImage = `url("${user.avatar}")`;
+  const profileTitle = document.querySelector(".profile__title");
+  profileTitle.textContent = user.name;
+  const profileDescription = document.querySelector(".profile__description");
+  profileDescription.textContent = user.about;
+}
+
+function appendCards(cards) {
+  for (const item of cards) {
+    const card = createCard(
+      item,
+      handleLikeCard,
+      handleDeleteCard,
+      handleViewCard
+    );
+    placesContainer.append(card);
+  }
+}
+
+initPage();

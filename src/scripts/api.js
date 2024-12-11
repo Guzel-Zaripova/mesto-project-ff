@@ -18,14 +18,16 @@ async function getCurrentUser() {
   return data;
 }
 
-// fetch("https://mesto.nomoreparties.co/v1/wff-cohort-28/cards", {
-//   headers: {
-//     authorization: "010b9d85-95a5-4fed-a625-d6c4cf6dd8aa",
-//   },
-// })
-//   .then((res) => res.json())
-//   .then((result) => {
-//     console.log(result);
-//   });
+// Загрузка информации о карточках с сервера
+async function getCards() {
+  const url = `${config.baseUrl}/cards`;
+  const response = await fetch(url, {
+    headers: config.headers,
+  });
+  const data = await response.json();
+  console.log(data);
+  return data;
+}
 
-export { getCurrentUser };
+const api = { getCurrentUser, getCards };
+export { api };
