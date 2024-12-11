@@ -89,10 +89,12 @@ openNewCard.addEventListener("click", function () {
 
 // Обработчик «отправки» формы "Добавление карточки"
 // Удаление карточки изображения
-function handleCardSubmit(event) {
+async function handleCardSubmit(event) {
   event.preventDefault();
   const name = nameNewCard.value;
   const link = linkNewCard.value;
+  await api.addNewCard(name, link);
+
   const card = createCard(
     { name, link },
     handleLikeCard,

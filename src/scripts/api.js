@@ -62,5 +62,27 @@ async function updateUser(name, about) {
   }
 }
 
-const api = { getCurrentUser, getCards, updateUser };
+// Добавление новой карточки
+async function addNewCard(name, link) {
+  try {
+    const url = `${config.baseUrl}/cards`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: config.headers,
+      body: JSON.stringify({
+        name,
+        link,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Ошибка при получении данных:", error);
+  }
+}
+
+const api = { getCurrentUser, getCards, updateUser, addNewCard };
 export { api };
