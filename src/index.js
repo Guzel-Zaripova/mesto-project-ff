@@ -58,6 +58,12 @@ openProfileEdit.addEventListener("click", function () {
 // Обработчик «отправки» формы "Редактировать профиль"
 async function handleProfileSubmit(event) {
   event.preventDefault();
+  const button = popupProfileEdit.querySelector(".popup__button");
+  const buttonText = button.textContent;
+  button.textContent = "Сохранение...";
+  button.disabled = true;
+  button.classList.add(validationConfig.inactiveButtonClass);
+
   const name = nameProfileEdit.value;
   const about = descriptionProfileEdit.value;
   await api.updateUser(name, about);
@@ -65,6 +71,10 @@ async function handleProfileSubmit(event) {
   profileTitle.textContent = name;
   profileDescription.textContent = about;
   closeModal(popupProfileEdit);
+
+  button.textContent = buttonText;
+  button.disabled = false;
+  button.classList.remove(validationConfig.inactiveButtonClass);
 }
 formProfileEdit.addEventListener("submit", handleProfileSubmit);
 
