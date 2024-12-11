@@ -93,10 +93,11 @@ async function handleCardSubmit(event) {
   event.preventDefault();
   const name = nameNewCard.value;
   const link = linkNewCard.value;
-  await api.addNewCard(name, link);
+  const data = await api.addNewCard(name, link);
+  const _id = data._id;
 
   const card = createCard(
-    { name, link },
+    { name, link, _id },
     handleLikeCard,
     handleDeleteCard,
     handleViewCard

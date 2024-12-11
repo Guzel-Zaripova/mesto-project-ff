@@ -84,5 +84,48 @@ async function addNewCard(name, link) {
   }
 }
 
-const api = { getCurrentUser, getCards, updateUser, addNewCard };
+// Постановка лайка карточки
+async function likeCard(cardId) {
+  try {
+    const url = `${config.baseUrl}/cards/likes/${cardId}`;
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: config.headers,
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+  } catch (error) {
+    console.error("Ошибка при получении данных:", error);
+  }
+}
+
+// Снятие лайка карточки
+async function dislikeCard(cardId) {
+  try {
+    const url = `${config.baseUrl}/cards/likes/${cardId}`;
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: config.headers,
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+  } catch (error) {
+    console.error("Ошибка при получении данных:", error);
+  }
+}
+
+const api = {
+  getCurrentUser,
+  getCards,
+  updateUser,
+  addNewCard,
+  likeCard,
+  dislikeCard,
+};
 export { api };
