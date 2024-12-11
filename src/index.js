@@ -15,7 +15,7 @@ import {
   clearValidation,
   validationConfig,
 } from "./scripts/components/validation.js";
-import { getUser } from "./scripts/api.js";
+import { getCurrentUser } from "./scripts/api.js";
 
 const placesContainer = document.querySelector(".places__list");
 
@@ -57,6 +57,19 @@ const popupCardImage = document.querySelector(
 const popupCardCaption = document.querySelector(
   ".popup_type_image .popup__caption"
 );
+
+// Заполнение информации о пользователе данными, полученными с сервера
+async function initCurrentUser() {
+  const data = await getCurrentUser();
+  const profileImage = document.querySelector(".profile__image");
+  profileImage.style.backgroundImage = `url("${data.avatar}")`;
+  const profileTitle = document.querySelector(".profile__title");
+  profileTitle.textContent = data.name;
+  const profileDescription = document.querySelector(".profile__description");
+  profileDescription.textContent = data.about;
+}
+
+initCurrentUser();
 
 // Открытие модального окна "Редактировать профиль" по нажатию кнопки "Редактировать"
 // Заполнение полей значениями, указанными на странице
@@ -125,5 +138,3 @@ closeButtons.forEach(function (item) {
 });
 
 enableValidation(validationConfig);
-
-getUser("wff-cohort-28");
