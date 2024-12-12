@@ -134,7 +134,8 @@ async function initPage() {
     api.getCards(),
   ]);
   initCurrentUser(user);
-  appendCards(cards);
+  const currentUserId = user._id;
+  appendCards(cards, currentUserId);
 }
 
 // Заполнение информации о пользователе данными, полученными с сервера
@@ -147,13 +148,14 @@ function initCurrentUser(user) {
   profileDescription.textContent = user.about;
 }
 
-function appendCards(cards) {
+function appendCards(cards, currentUserId) {
   for (const item of cards) {
     const card = createCard(
       item,
       handleLikeCard,
       handleDeleteCard,
-      handleViewCard
+      handleViewCard,
+      currentUserId
     );
     placesContainer.append(card);
   }

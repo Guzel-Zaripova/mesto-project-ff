@@ -97,6 +97,7 @@ async function likeCard(cardId) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = await response.json();
+    return data;
   } catch (error) {
     console.error("Ошибка при получении данных:", error);
   }
@@ -115,6 +116,7 @@ async function dislikeCard(cardId) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = await response.json();
+    return data;
   } catch (error) {
     console.error("Ошибка при получении данных:", error);
   }

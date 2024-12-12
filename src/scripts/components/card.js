@@ -5,8 +5,13 @@ import { api } from "../api";
 
 const cardTemplate = document.querySelector("#card-template");
 
-// TODO: добавить входной параметр currentUserId
-function createCard({ name, link, likes = [], _id }, onLike, onDelete, onView) {
+function createCard(
+  { name, link, likes = [], _id },
+  onLike,
+  onDelete,
+  onView,
+  currentUserId
+) {
   const node = cardTemplate.content.cloneNode(true);
 
   const card = node.querySelector(".card");
@@ -23,6 +28,14 @@ function createCard({ name, link, likes = [], _id }, onLike, onDelete, onView) {
   const likeButton = node.querySelector(".card__like-button");
   likeButton.addEventListener("click", onLike);
 
+  const isLike = likes.some((user) => user._id === currentUserId);
+  if (isLike) {
+    card.setAttribute("data-is-liked", "1");
+    likeButton.classList.add("card__like-button_is-active");
+  } else {
+    card.setAttribute("data-is-liked", "0");
+  }
+
   const likesCount = node.querySelector(".card__likes-count");
   likesCount.textContent = likes.length;
 
@@ -32,16 +45,26 @@ function createCard({ name, link, likes = [], _id }, onLike, onDelete, onView) {
   return node;
 }
 
-function handleLikeCard(event) {
-  const userId = "1";
-  const card = event.target.closest(".places__item");
+async function handleLikeCard(event) {
+  const card = event.target.closest(".card");
   const cardId = card.getAttribute("data-id");
-  console.log(cardId);
-  // event.target.classList.toggle("card__like-button_is-active");
+  const isLiked = card.getAttribute("data-is-liked");
+  const likesCount = card.querySelector(".card__likes-count");
+  if (isLiked === "1") {
+    const data = await api.dislikeCard(cardId);
+    card.setAttribute("data-is-liked", "0");
+    event.target.classList.remove("card__like-button_is-active");
+    likesCount.textContent = data.likes.length;
+  } else {
+    const data = await api.likeCard(cardId);
+    card.setAttribute("data-is-liked", "1");
+    event.target.classList.add("card__like-button_is-active");
+    likesCount.textContent = data.likes.length;
+  }
 }
 
 function handleDeleteCard(event) {
-  const card = event.target.closest(".places__item");
+  const card = event.target.closest(".card");
   card.remove();
 }
 
