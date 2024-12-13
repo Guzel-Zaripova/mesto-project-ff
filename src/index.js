@@ -95,12 +95,15 @@ async function handleCardSubmit(event) {
   const link = linkNewCard.value;
   const data = await api.addNewCard(name, link);
   const _id = data._id;
+  const owner = data.owner;
+  const currentUserId = owner._id;
 
   const card = createCard(
-    { name, link, _id },
+    { name, link, _id, owner },
     handleLikeCard,
     handleDeleteCard,
-    handleViewCard
+    handleViewCard,
+    currentUserId
   );
   placesContainer.prepend(card);
   closeModal(popupNewCard);

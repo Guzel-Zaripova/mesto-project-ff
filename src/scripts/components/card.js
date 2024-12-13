@@ -6,7 +6,7 @@ import { api } from "../api";
 const cardTemplate = document.querySelector("#card-template");
 
 function createCard(
-  { name, link, likes = [], _id },
+  { name, link, likes = [], _id, owner },
   onLike,
   onDelete,
   onView,
@@ -40,7 +40,11 @@ function createCard(
   likesCount.textContent = likes.length;
 
   const deleteButton = node.querySelector(".card__delete-button");
-  deleteButton.addEventListener("click", onDelete);
+  if (owner._id === currentUserId) {
+    deleteButton.addEventListener("click", onDelete);
+  } else {
+    deleteButton.remove();
+  }
 
   return node;
 }
@@ -63,8 +67,10 @@ async function handleLikeCard(event) {
   }
 }
 
-function handleDeleteCard(event) {
+async function handleDeleteCard(event) {
   const card = event.target.closest(".card");
+  const cardId = card.getAttribute("data-id");
+  await api.deleteCard(cardId);
   card.remove();
 }
 

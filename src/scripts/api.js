@@ -122,6 +122,25 @@ async function dislikeCard(cardId) {
   }
 }
 
+// Удаление карточки
+async function deleteCard(cardId) {
+  try {
+    const url = `${config.baseUrl}/cards/${cardId}`;
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: config.headers,
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Ошибка при получении данных:", error);
+  }
+}
+
 const api = {
   getCurrentUser,
   getCards,
@@ -129,5 +148,6 @@ const api = {
   addNewCard,
   likeCard,
   dislikeCard,
+  deleteCard,
 };
 export { api };
