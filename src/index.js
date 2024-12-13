@@ -27,6 +27,12 @@ const descriptionProfileEdit = formProfileEdit.elements.description;
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 
+// Переменные модального окна "Редактировать профиль"
+const profileImage = document.querySelector(".profile__image");
+const popupAvatarEdit = document.querySelector(".popup_update_avatar");
+const formAvatarEdit = document.forms["update-avatar"];
+const linkAvatarEdit = formAvatarEdit.elements.link;
+
 // Переменнные модального окна "Добавление карточки"
 const openNewCard = document.querySelector(".profile__add-button");
 const popupNewCard = document.querySelector(".popup_type_new-card");
@@ -77,6 +83,37 @@ async function handleProfileSubmit(event) {
   button.classList.remove(validationConfig.inactiveButtonClass);
 }
 formProfileEdit.addEventListener("submit", handleProfileSubmit);
+
+// Открытие модального окна "Обновить аватар" по нажатию на аватарку
+profileImage.addEventListener("click", function () {
+  const avatarForm = popupAvatarEdit.querySelector(
+    validationConfig.formSelector
+  );
+  clearValidation(avatarForm, validationConfig);
+  openModal(popupAvatarEdit);
+  linkAvatarEdit.value = "";
+});
+
+// Обработчик «отправки» формы "Обновить аватар"
+async function handleAvatarSubmit(event) {
+  event.preventDefault();
+  const button = popupAvatarEdit.querySelector(".popup__button");
+  const buttonText = button.textContent;
+  button.textContent = "Сохранение...";
+  button.disabled = true;
+  button.classList.add(validationConfig.inactiveButtonClass);
+
+  const avatar = linkAvatarEdit.value;
+  const user = await api.updateAvatar(avatar);
+
+  profileImage.style.backgroundImage = `url("${user.avatar}")`;
+  closeModal(popupAvatarEdit);
+
+  button.textContent = buttonText;
+  button.disabled = false;
+  button.classList.remove(validationConfig.inactiveButtonClass);
+}
+formAvatarEdit.addEventListener("submit", handleAvatarSubmit);
 
 // Открытие модального окна "Добавление карточки" по нажатию кнопки "Добавить"
 openNewCard.addEventListener("click", function () {

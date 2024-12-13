@@ -141,6 +141,27 @@ async function deleteCard(cardId) {
   }
 }
 
+// Обновление аватара пользователя
+async function updateAvatar(avatar) {
+  try {
+    const url = `${config.baseUrl}/users/me/avatar`;
+    const response = await fetch(url, {
+      method: "PATCH",
+      headers: config.headers,
+      body: JSON.stringify({
+        avatar,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Ошибка при получении данных:", error);
+  }
+}
+
 const api = {
   getCurrentUser,
   getCards,
@@ -149,5 +170,6 @@ const api = {
   likeCard,
   dislikeCard,
   deleteCard,
+  updateAvatar,
 };
 export { api };
