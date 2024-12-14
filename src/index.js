@@ -146,7 +146,8 @@ async function handleCardSubmit(event) {
       handleLikeCard,
       handleDeleteCard,
       handleViewCard,
-      currentUserId
+      currentUserId,
+      api
     );
     placesContainer.prepend(card);
     closeModal(popupNewCard);
@@ -206,7 +207,8 @@ function appendCards(cards, currentUserId) {
       handleLikeCard,
       handleDeleteCard,
       handleViewCard,
-      currentUserId
+      currentUserId,
+      api
     );
     placesContainer.append(card);
   }

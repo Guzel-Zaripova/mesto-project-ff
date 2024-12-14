@@ -1,8 +1,6 @@
 // Функции для работы с карточками проекта Mesto
 // Функции, обрабатывающие события лайка и удаления карточки
 
-import { api } from "../api";
-
 const cardTemplate = document.querySelector("#card-template");
 
 function createCard(
@@ -10,7 +8,8 @@ function createCard(
   onLike,
   onDelete,
   onView,
-  currentUserId
+  currentUserId,
+  api
 ) {
   const node = cardTemplate.content.cloneNode(true);
 
@@ -26,7 +25,10 @@ function createCard(
   cardImage.addEventListener("click", onView);
 
   const likeButton = node.querySelector(".card__like-button");
-  likeButton.addEventListener("click", onLike);
+  // likeButton.addEventListener("click", onLike);
+  likeButton.addEventListener("click", function (event) {
+    onLike(event, api);
+  });
 
   const isLike = likes.some((user) => user._id === currentUserId);
   if (isLike) {
@@ -41,7 +43,9 @@ function createCard(
 
   const deleteButton = node.querySelector(".card__delete-button");
   if (owner._id === currentUserId) {
-    deleteButton.addEventListener("click", onDelete);
+    deleteButton.addEventListener("click", function (event) {
+      onDelete(event, api);
+    });
   } else {
     deleteButton.remove();
   }
@@ -49,7 +53,7 @@ function createCard(
   return node;
 }
 
-async function handleLikeCard(event) {
+async function handleLikeCard(event, api) {
   const card = event.target.closest(".card");
   const cardId = card.getAttribute("data-id");
   const isLiked = card.getAttribute("data-is-liked");
@@ -67,7 +71,7 @@ async function handleLikeCard(event) {
   }
 }
 
-async function handleDeleteCard(event) {
+async function handleDeleteCard(event, api) {
   const card = event.target.closest(".card");
   const cardId = card.getAttribute("data-id");
   await api.deleteCard(cardId);
