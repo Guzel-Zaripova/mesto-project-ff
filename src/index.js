@@ -12,6 +12,7 @@ import { openModal, closeModal } from "./scripts/components/modal.js";
 import {
   enableValidation,
   clearValidation,
+  renderLoading,
   validationConfig,
 } from "./scripts/components/validation.js";
 import { api } from "./scripts/api.js";
@@ -27,7 +28,7 @@ const descriptionProfileEdit = formProfileEdit.elements.description;
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 
-// Переменные модального окна "Редактировать профиль"
+// Переменные модального окна "Обновить аватар"
 const profileImage = document.querySelector(".profile__image");
 const popupAvatarEdit = document.querySelector(".popup_update_avatar");
 const formAvatarEdit = document.forms["update-avatar"];
@@ -66,21 +67,21 @@ async function handleProfileSubmit(event) {
   event.preventDefault();
   const button = popupProfileEdit.querySelector(".popup__button");
   const buttonText = button.textContent;
-  button.textContent = "Сохранение...";
-  button.disabled = true;
-  button.classList.add(validationConfig.inactiveButtonClass);
+  try {
+    renderLoading(true, button);
 
-  const name = nameProfileEdit.value;
-  const about = descriptionProfileEdit.value;
-  await api.updateUser(name, about);
+    const name = nameProfileEdit.value;
+    const about = descriptionProfileEdit.value;
+    await api.updateUser(name, about);
 
-  profileTitle.textContent = name;
-  profileDescription.textContent = about;
-  closeModal(popupProfileEdit);
-
-  button.textContent = buttonText;
-  button.disabled = false;
-  button.classList.remove(validationConfig.inactiveButtonClass);
+    profileTitle.textContent = name;
+    profileDescription.textContent = about;
+    closeModal(popupProfileEdit);
+  } catch (error) {
+    console.error("Произошла ошибка:", error);
+  } finally {
+    renderLoading(false, button, buttonText);
+  }
 }
 formProfileEdit.addEventListener("submit", handleProfileSubmit);
 
@@ -99,19 +100,19 @@ async function handleAvatarSubmit(event) {
   event.preventDefault();
   const button = popupAvatarEdit.querySelector(".popup__button");
   const buttonText = button.textContent;
-  button.textContent = "Сохранение...";
-  button.disabled = true;
-  button.classList.add(validationConfig.inactiveButtonClass);
+  try {
+    renderLoading(true, button);
 
-  const avatar = linkAvatarEdit.value;
-  const user = await api.updateAvatar(avatar);
+    const avatar = linkAvatarEdit.value;
+    const user = await api.updateAvatar(avatar);
 
-  profileImage.style.backgroundImage = `url("${user.avatar}")`;
-  closeModal(popupAvatarEdit);
-
-  button.textContent = buttonText;
-  button.disabled = false;
-  button.classList.remove(validationConfig.inactiveButtonClass);
+    profileImage.style.backgroundImage = `url("${user.avatar}")`;
+    closeModal(popupAvatarEdit);
+  } catch (error) {
+    console.error("Произошла ошибка:", error);
+  } finally {
+    renderLoading(false, button, buttonText);
+  }
 }
 formAvatarEdit.addEventListener("submit", handleAvatarSubmit);
 
@@ -128,23 +129,33 @@ openNewCard.addEventListener("click", function () {
 // Удаление карточки изображения
 async function handleCardSubmit(event) {
   event.preventDefault();
-  const name = nameNewCard.value;
-  const link = linkNewCard.value;
-  const data = await api.addNewCard(name, link);
-  const _id = data._id;
-  const owner = data.owner;
-  const currentUserId = owner._id;
+  const button = popupNewCard.querySelector(".popup__button");
+  const buttonText = button.textContent;
+  try {
+    renderLoading(true, button);
 
-  const card = createCard(
-    { name, link, _id, owner },
-    handleLikeCard,
-    handleDeleteCard,
-    handleViewCard,
-    currentUserId
-  );
-  placesContainer.prepend(card);
-  closeModal(popupNewCard);
-  formNewCard.reset();
+    const name = nameNewCard.value;
+    const link = linkNewCard.value;
+    const data = await api.addNewCard(name, link);
+    const _id = data._id;
+    const owner = data.owner;
+    const currentUserId = owner._id;
+
+    const card = createCard(
+      { name, link, _id, owner },
+      handleLikeCard,
+      handleDeleteCard,
+      handleViewCard,
+      currentUserId
+    );
+    placesContainer.prepend(card);
+    closeModal(popupNewCard);
+    formNewCard.reset();
+  } catch (error) {
+    console.error("Произошла ошибка:", error);
+  } finally {
+    renderLoading(false, button, buttonText);
+  }
 }
 popupNewCard.addEventListener("submit", handleCardSubmit);
 

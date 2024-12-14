@@ -99,4 +99,17 @@ function clearValidation(formElement, config) {
   buttonElement.classList.add(config.inactiveButtonClass);
 }
 
-export { enableValidation, clearValidation, validationConfig };
+// Уведомление пользователя о процессе загрузки
+function renderLoading(isLoading, button, buttonText) {
+  if (isLoading) {
+    button.textContent = "Сохранение...";
+    button.disabled = true;
+    button.classList.add(validationConfig.inactiveButtonClass);
+  } else {
+    button.textContent = buttonText;
+    button.disabled = false;
+    button.classList.remove(validationConfig.inactiveButtonClass);
+  }
+}
+
+export { enableValidation, clearValidation, renderLoading, validationConfig };
