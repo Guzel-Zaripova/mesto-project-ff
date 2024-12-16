@@ -76,27 +76,29 @@ function hasInvalidInput(inputList) {
 }
 
 // Функция активации валидации
-function enableValidation(config) {
-  const formList = Array.from(document.querySelectorAll(config.formSelector));
+function enableValidation(settings) {
+  const formList = Array.from(document.querySelectorAll(settings.formSelector));
   formList.forEach((formElement) => {
-    setEventListeners(formElement);
+    setEventListeners(formElement, settings);
   });
 }
 
 // Функция очистки ошибок валидации
-function clearValidation(formElement, config) {
+function clearValidation(formElement, settings) {
   const inputList = Array.from(
-    formElement.querySelectorAll(config.inputSelector)
+    formElement.querySelectorAll(settings.inputSelector)
   );
   inputList.forEach((inputElement) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove(config.inputErrorClass);
-    errorElement.classList.remove(config.errorClass);
+    inputElement.classList.remove(settings.inputErrorClass);
+    errorElement.classList.remove(settings.errorClass);
     errorElement.textContent = "";
   });
-  const buttonElement = formElement.querySelector(config.submitButtonSelector);
+  const buttonElement = formElement.querySelector(
+    settings.submitButtonSelector
+  );
   buttonElement.disabled = true;
-  buttonElement.classList.add(config.inactiveButtonClass);
+  buttonElement.classList.add(settings.inactiveButtonClass);
 }
 
 // Уведомление пользователя о процессе загрузки

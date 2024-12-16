@@ -25,7 +25,6 @@ function createCard(
   cardImage.addEventListener("click", onView);
 
   const likeButton = node.querySelector(".card__like-button");
-  // likeButton.addEventListener("click", onLike);
   likeButton.addEventListener("click", function (event) {
     onLike(event, api);
   });
@@ -59,15 +58,23 @@ async function handleLikeCard(event, api) {
   const isLiked = card.getAttribute("data-is-liked");
   const likesCount = card.querySelector(".card__likes-count");
   if (isLiked === "1") {
-    const data = await api.dislikeCard(cardId);
-    card.setAttribute("data-is-liked", "0");
-    event.target.classList.remove("card__like-button_is-active");
-    likesCount.textContent = data.likes.length;
+    try {
+      const data = await api.dislikeCard(cardId);
+      card.setAttribute("data-is-liked", "0");
+      event.target.classList.remove("card__like-button_is-active");
+      likesCount.textContent = data.likes.length;
+    } catch (error) {
+      console.error("Ошибка:", error);
+    }
   } else {
-    const data = await api.likeCard(cardId);
-    card.setAttribute("data-is-liked", "1");
-    event.target.classList.add("card__like-button_is-active");
-    likesCount.textContent = data.likes.length;
+    try {
+      const data = await api.likeCard(cardId);
+      card.setAttribute("data-is-liked", "1");
+      event.target.classList.add("card__like-button_is-active");
+      likesCount.textContent = data.likes.length;
+    } catch (error) {
+      console.error("Ошибка:", error);
+    }
   }
 }
 

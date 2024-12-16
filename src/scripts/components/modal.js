@@ -3,17 +3,17 @@
 
 function openModal(element) {
   element.classList.add("popup_is-opened");
-  element.addEventListener("click", hanleOverlay);
+  element.addEventListener("click", handleModalClose);
   document.addEventListener("keydown", handleKeydown);
 }
 
 function closeModal(element) {
   element.classList.remove("popup_is-opened");
-  element.removeEventListener("click", hanleOverlay);
+  element.removeEventListener("click", handleModalClose);
   document.removeEventListener("keydown", handleKeydown);
 }
 
-function hanleOverlay(event) {
+function handleModalClose(event) {
   if (
     event.target === event.currentTarget ||
     event.target.classList.contains("popup__close")
