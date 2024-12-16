@@ -10,23 +10,23 @@ const validationConfig = {
 };
 
 // Функция, добавляющая класс с ошибкой
-function showInputError(formElement, inputElement, errorMessage) {
+function showInputError(formElement, inputElement, errorMessage, settings) {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add(validationConfig.inputErrorClass);
+  inputElement.classList.add(settings.inputErrorClass);
   errorElement.textContent = errorMessage;
-  errorElement.classList.add(validationConfig.errorClass);
+  errorElement.classList.add(settings.errorClass);
 }
 
 // Функция, удаляющая класс с ошибкой
-function hideInputError(formElement, inputElement) {
+function hideInputError(formElement, inputElement, settings) {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove(validationConfig.inputErrorClass);
-  errorElement.classList.remove(validationConfig.errorClass);
+  inputElement.classList.remove(settings.inputErrorClass);
+  errorElement.classList.remove(settings.errorClass);
   errorElement.textContent = "";
 }
 
 // Функция, проверающая валидность поля
-function checkInputValidity(formElement, inputElement) {
+function checkInputValidity(formElement, inputElement, settings) {
   if (inputElement.validity.patternMismatch) {
     inputElement.setCustomValidity(inputElement.dataset.errorMessage);
   } else {
@@ -34,42 +34,47 @@ function checkInputValidity(formElement, inputElement) {
   }
 
   if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
+    showInputError(
+      formElement,
+      inputElement,
+      inputElement.validationMessage,
+      settings
+    );
   } else {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, settings);
   }
 }
 
 // Функция, которая примет параметром элемент формы и добавит её полям нужные обработчики
-function setEventListeners(formElement) {
+function setEventListeners(formElement, settings) {
   const inputList = Array.from(
-    formElement.querySelectorAll(validationConfig.inputSelector)
+    formElement.querySelectorAll(settings.inputSelector)
   );
   const buttonElement = formElement.querySelector(
-    validationConfig.submitButtonSelector
+    settings.submitButtonSelector
   );
 
-  toggleButtonState(inputList, buttonElement);
+  toggleButtonState(inputList, buttonElement, settings);
 
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", () => {
-      checkInputValidity(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement);
+      checkInputValidity(formElement, inputElement, settings);
+      toggleButtonState(inputList, buttonElement, settings);
     });
   });
 }
 
-function disableButton(buttonElement) {
+function disableButton(buttonElement, settings) {
   buttonElement.disabled = true;
-  buttonElement.classList.add(validationConfig.inactiveButtonClass);
+  buttonElement.classList.add(settings.inactiveButtonClass);
 }
 
-function toggleButtonState(inputList, buttonElement) {
+function toggleButtonState(inputList, buttonElement, settings) {
   if (hasInvalidInput(inputList)) {
-    disableButton(buttonElement);
+    disableButton(buttonElement, settings);
   } else {
     buttonElement.disabled = false;
-    buttonElement.classList.remove(validationConfig.inactiveButtonClass);
+    buttonElement.classList.remove(settings.inactiveButtonClass);
   }
 }
 
@@ -93,12 +98,12 @@ function clearValidation(formElement, settings) {
     formElement.querySelectorAll(settings.inputSelector)
   );
   inputList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, settings);
   });
   const buttonElement = formElement.querySelector(
     settings.submitButtonSelector
   );
-  disableButton(buttonElement);
+  disableButton(buttonElement, settings);
 }
 
 export { enableValidation, clearValidation, validationConfig };
