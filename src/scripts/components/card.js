@@ -22,7 +22,7 @@ function createCard(
   const cardImage = node.querySelector(".card__image");
   cardImage.setAttribute("src", link);
   cardImage.setAttribute("alt", name);
-  cardImage.addEventListener("click", onView);
+  cardImage.addEventListener("click", () => onView(name, link));
 
   const likeButton = node.querySelector(".card__like-button");
   likeButton.addEventListener("click", function (event) {

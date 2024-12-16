@@ -41,8 +41,7 @@ async function updateUser(name, about) {
       about,
     }),
   });
-  const data = await checkResponse(response);
-  return data;
+  await checkResponse(response);
 }
 
 // Добавление новой карточки

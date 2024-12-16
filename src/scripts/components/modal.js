@@ -29,4 +29,4 @@ function handleKeydown(event) {
   }
 }
 
-export { openModal, closeModal };
+export { openModal, closeModal, handleModalClose };

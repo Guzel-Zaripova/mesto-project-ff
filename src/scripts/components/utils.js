@@ -5,4 +5,15 @@ function checkResponse(response) {
   return response.json();
 }
 
-export { checkResponse };
+// Уведомление пользователя о процессе загрузки
+function renderLoading(isLoading, button, buttonText) {
+  if (isLoading) {
+    button.textContent = "Сохранение...";
+    button.disabled = true;
+  } else {
+    button.textContent = buttonText;
+    button.disabled = false;
+  }
+}
+
+export { checkResponse, renderLoading };

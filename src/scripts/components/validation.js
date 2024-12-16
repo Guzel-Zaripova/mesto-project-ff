@@ -59,10 +59,14 @@ function setEventListeners(formElement) {
   });
 }
 
+function disableButton(buttonElement) {
+  buttonElement.disabled = true;
+  buttonElement.classList.add(validationConfig.inactiveButtonClass);
+}
+
 function toggleButtonState(inputList, buttonElement) {
   if (hasInvalidInput(inputList)) {
-    buttonElement.disabled = true;
-    buttonElement.classList.add(validationConfig.inactiveButtonClass);
+    disableButton(buttonElement);
   } else {
     buttonElement.disabled = false;
     buttonElement.classList.remove(validationConfig.inactiveButtonClass);
@@ -89,29 +93,12 @@ function clearValidation(formElement, settings) {
     formElement.querySelectorAll(settings.inputSelector)
   );
   inputList.forEach((inputElement) => {
-    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove(settings.inputErrorClass);
-    errorElement.classList.remove(settings.errorClass);
-    errorElement.textContent = "";
+    hideInputError(formElement, inputElement);
   });
   const buttonElement = formElement.querySelector(
     settings.submitButtonSelector
   );
-  buttonElement.disabled = true;
-  buttonElement.classList.add(settings.inactiveButtonClass);
+  disableButton(buttonElement);
 }
 
-// Уведомление пользователя о процессе загрузки
-function renderLoading(isLoading, button, buttonText) {
-  if (isLoading) {
-    button.textContent = "Сохранение...";
-    button.disabled = true;
-    button.classList.add(validationConfig.inactiveButtonClass);
-  } else {
-    button.textContent = buttonText;
-    button.disabled = false;
-    button.classList.remove(validationConfig.inactiveButtonClass);
-  }
-}
-
-export { enableValidation, clearValidation, renderLoading, validationConfig };
+export { enableValidation, clearValidation, validationConfig };
