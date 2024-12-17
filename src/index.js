@@ -164,11 +164,6 @@ function handleViewCard(name, link) {
   openModal(popupViewImage);
 }
 
-const closeButtons = document.querySelectorAll(".popup__close");
-closeButtons.forEach(function (item) {
-  item.addEventListener("click", handleModalClose);
-});
-
 enableValidation(validationConfig);
 
 async function initPage() {

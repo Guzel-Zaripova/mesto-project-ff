@@ -79,10 +79,14 @@ async function handleLikeCard(event, api) {
 }
 
 async function handleDeleteCard(event, api) {
-  const card = event.target.closest(".card");
-  const cardId = card.getAttribute("data-id");
-  await api.deleteCard(cardId);
-  card.remove();
+  try {
+    const card = event.target.closest(".card");
+    const cardId = card.getAttribute("data-id");
+    await api.deleteCard(cardId);
+    card.remove();
+  } catch (error) {
+    console.error("Произошла ошибка:", error);
+  }
 }
 
 export { createCard, handleLikeCard, handleDeleteCard };
